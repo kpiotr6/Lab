@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import java.util.Map;
+
 public class World {
     static void run(Direction[] directions){
         System.out.println("Start");
@@ -14,17 +16,12 @@ public class World {
         System.out.println("Stopp");
     }
     public static void main(String[] args) {
-        System.out.println("system wystartował");
-        Direction[] directions = new Direction[args.length];
-        for(int i=0;i< args.length;i++){
-            switch (args[i]){
-                case "f" -> directions[i] = Direction.FORWARD;
-                case "b" -> directions[i] = Direction.BACK;
-                case "r" -> directions[i] = Direction.RIGHT;
-                case "l" -> directions[i] = Direction.LEFT;
-            }
-        }
-        run(directions);
-        System.out.println("system zakończył działanie");
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2,1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
+        System.out.println(MapDirection.EAST.next());
+        System.out.println(MapDirection.EAST.toUnitVector());
     }
 }
