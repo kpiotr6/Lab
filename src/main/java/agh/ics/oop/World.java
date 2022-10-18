@@ -1,6 +1,5 @@
 package agh.ics.oop;
 
-import java.util.Map;
 
 public class World {
     static void run(Direction[] directions){
@@ -16,12 +15,17 @@ public class World {
         System.out.println("Stopp");
     }
     public static void main(String[] args) {
-        Vector2d position1 = new Vector2d(1,2);
-        System.out.println(position1);
-        Vector2d position2 = new Vector2d(-2,1);
-        System.out.println(position2);
-        System.out.println(position1.add(position2));
-        System.out.println(MapDirection.EAST.next());
-        System.out.println(MapDirection.EAST.toUnitVector());
+        //Animal animal = new Animal();
+        //OptionsParser.parse()
+        //for (String command : args) {
+
+        }
+//        Vector2d position1 = new Vector2d(1,2);
+//        System.out.println(position1);
+//        Vector2d position2 = new Vector2d(-2,1);
+//        System.out.println(position2);
+//        System.out.println(position1.add(position2));
+//        System.out.println(MapDirection.EAST.next());
+//        System.out.println(MapDirection.EAST.toUnitVector());
     }
 }
