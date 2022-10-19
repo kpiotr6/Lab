@@ -12,20 +12,16 @@ public class World {
                 case LEFT -> System.out.println("Zwierzak skręca w lewo");
             }
         }
-        System.out.println("Stopp");
+        System.out.println("Stop");
     }
     public static void main(String[] args) {
-        //Animal animal = new Animal();
-        //OptionsParser.parse()
-        //for (String command : args) {
-
+        Animal animal = new Animal();
+        OptionsParser.parse(args);
+        MoveDirection[] directions = OptionsParser.parse(args);
+        for (MoveDirection direction: directions) {
+            animal.move(direction);
         }
-//        Vector2d position1 = new Vector2d(1,2);
-//        System.out.println(position1);
-//        Vector2d position2 = new Vector2d(-2,1);
-//        System.out.println(position2);
-//        System.out.println(position1.add(position2));
-//        System.out.println(MapDirection.EAST.next());
-//        System.out.println(MapDirection.EAST.toUnitVector());
+        System.out.println(animal);
+
     }
 }

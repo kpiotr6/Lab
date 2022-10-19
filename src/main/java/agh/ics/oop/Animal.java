@@ -1,7 +1,7 @@
 package agh.ics.oop;
 
 public class Animal {
-    private MapDirection mapDirection = MapDirection.NORTH;;
+    private MapDirection mapDirection = MapDirection.NORTH;
     private Vector2d position = new Vector2d(2,2);
     private boolean inBoundaries(Vector2d vector){
         int x = vector.x;
