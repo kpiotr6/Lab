@@ -14,11 +14,7 @@ public class Animal {
     public Animal(){
 
     }
-    private boolean inBoundaries(Vector2d vector){
-        int x = vector.x;
-        int y = vector.y;
-        return x>=0 && x<=4 && y>=0 && y<=4;
-    }
+
     @Override
     public String toString() {
         return switch (mapDirection) {
@@ -39,8 +35,12 @@ public class Animal {
             case FORWARD -> position = position.add(mapDirection.toUnitVector());
             case BACKWARD -> position = position.substract(mapDirection.toUnitVector());
         }
-        if(!inBoundaries(position) || !map.canMoveTo(position)){
+        if(!map.canMoveTo(position)){
             position = previousPosition;
         }
+    }
+
+    public Vector2d getPosition() {
+        return position;
     }
 }
