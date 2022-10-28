@@ -28,19 +28,26 @@ public class Animal {
         return this.position.equals(position);
     }
     public void move(MoveDirection direction){
-        Vector2d previousPosition = new Vector2d(position.x,position.y);
+        Vector2d tmpPosition = null;
         switch(direction){
             case RIGHT -> mapDirection = mapDirection.next();
             case LEFT -> mapDirection = mapDirection.previous();
-            case FORWARD -> position = position.add(mapDirection.toUnitVector());
-            case BACKWARD -> position = position.substract(mapDirection.toUnitVector());
+            case FORWARD -> tmpPosition = position.add(mapDirection.toUnitVector());
+            case BACKWARD -> tmpPosition = position.substract(mapDirection.toUnitVector());
         }
-        if(!map.canMoveTo(position)){
-            position = previousPosition;
+        if(tmpPosition == null){
+            return;
+        }
+        if(map.canMoveTo(tmpPosition)){
+            position = tmpPosition;
         }
     }
 
     public Vector2d getPosition() {
         return position;
+    }
+
+    public MapDirection getMapDirection() {
+        return mapDirection;
     }
 }

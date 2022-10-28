@@ -5,12 +5,12 @@ import java.util.List;
 
 public class SimulationEngine implements IEngine{
     private MoveDirection[] moves;
-    private IWorldMap map;
+    private RectangularMap map;
     private List<Animal> animals = new LinkedList<>();
 
     public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions) {
         this.moves = moves;
-        this.map = map;
+        this.map = (RectangularMap)map;
         for (Vector2d position:positions) {
             Animal tmp = new Animal(map,position);
             map.place(tmp);
@@ -18,18 +18,17 @@ public class SimulationEngine implements IEngine{
         }
     }
 
+    public List<Animal> getAnimals() {
+        return animals;
+    }
+
     @Override
     public void run() {
-        int nubmer = moves.length;
-        int k = 0;
-        for(Animal a : animals){
-            for (int i = k;i<nubmer;i++){
-                k = i;
-                a.move(moves[i]);
-                if(i==nubmer-1){
-                    return;
-                }
-            }
+        int animalNumber = 0;
+        int maxAnimal = animals.size();
+        for(MoveDirection move:moves){
+            animals.get(animalNumber%maxAnimal).move(move);
+            animalNumber++;
         }
     }
 }
