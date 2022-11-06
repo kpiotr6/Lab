@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-public class Animal {
+public class Animal implements IMapElement {
     private MapDirection mapDirection = MapDirection.NORTH;
     private Vector2d position = new Vector2d(2,2);
     private IWorldMap map;
@@ -40,6 +40,12 @@ public class Animal {
         }
         if(map.canMoveTo(tmpPosition)){
             position = tmpPosition;
+            Object pGrass = map.objectAt(tmpPosition);
+            if(pGrass instanceof Grass){
+                GrassField gMap = (GrassField)map;
+                gMap.removeGrass(pGrass);
+                gMap.stabilizeGrass();
+            }
         }
     }
 
