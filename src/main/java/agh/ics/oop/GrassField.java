@@ -42,7 +42,10 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
             if(e instanceof Animal && e.isAt(animal.getPosition())){
                 return false;
             }
-            element = e;
+            if(e instanceof Grass && e.isAt(animal.getPosition())){
+                element = e;
+            }
+
         }
         elements.add(animal);
         if(element instanceof Grass){
