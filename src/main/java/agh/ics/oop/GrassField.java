@@ -10,10 +10,9 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
         stabilizeGrass();
     }
     private boolean isGrass(Vector2d position){
-        for (IMapElement e:elements) {
-            if(e.isAt(position) && e instanceof Grass){
-                return true;
-            }
+        IMapElement e = elements.get(position);
+        if(e.isAt(position) && e instanceof Grass){
+            return true;
         }
         return false;
     }
@@ -29,7 +28,7 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
             y = random.nextInt((int)Math.sqrt(grassNumber*10));
             Vector2d tmpVector =new Vector2d(x,y);
             if(hashSet.add(tmpVector)){
-                elements.add(new Grass(tmpVector));
+                elements.put (tmpVector,new Grass(tmpVector));
             }
         }
 
@@ -38,21 +37,17 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
     @Override
     public boolean place(Animal animal) {
         IMapElement element = null;
-        for (IMapElement e : elements) {
-            if(e instanceof Animal && e.isAt(animal.getPosition())){
-                return false;
-            }
-            if(e instanceof Grass && e.isAt(animal.getPosition())){
-                element = e;
-            }
-
+        IMapElement e = elements.get(animal.getPosition());
+        if(e instanceof Animal ){
+            return false;
         }
-        elements.add(animal);
-        if(element instanceof Grass){
+        elements.put(animal.getPosition(),animal);
+        if(e instanceof Grass){
             this.removeGrass(element);
             this.stabilizeGrass();
         }
         return true;
+
     }
     @Override
     public boolean canMoveTo(Vector2d position) {
@@ -60,16 +55,16 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
     }
 
     protected Vector2d lowerLeft(){
-        Vector2d lowerLeft = elements.get(0).getPosition();
-        for (IMapElement e : elements) {
-            lowerLeft = lowerLeft.lowerLeft(e.getPosition());
+        Vector2d lowerLeft = elements.keySet().iterator().next();
+        for (Vector2d e : elements.keySet()) {
+            lowerLeft = lowerLeft.lowerLeft(e);
         }
         return lowerLeft;
     }
     protected Vector2d upperRight(){
-        Vector2d upperRight = elements.get(0).getPosition();
-        for (IMapElement e : elements) {
-            upperRight = upperRight.upperRight(e.getPosition());
+        Vector2d upperRight = elements.keySet().iterator().next();
+        for (Vector2d e : elements.keySet()) {
+            upperRight = upperRight.upperRight(e);
         }
         return upperRight;
     }

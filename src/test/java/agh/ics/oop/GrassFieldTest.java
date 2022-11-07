@@ -2,6 +2,7 @@ package agh.ics.oop;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,9 +25,10 @@ public class GrassFieldTest {
         assertTrue(map.place(new Animal(map,positions[0])));
         assertFalse(map.place(new Animal(map,positions[0])));
         GrassField grassField = (GrassField)map;
-        List<IMapElement> elements = grassField.getElements();
+        HashMap<Vector2d,IMapElement> elements = grassField.getElements();
         IMapElement k = null;
-        for (IMapElement e:elements) {
+
+        for (IMapElement e:elements.values()) {
             if(e instanceof Animal){
                 k = e;
                 break;

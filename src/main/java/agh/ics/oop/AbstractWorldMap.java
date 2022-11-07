@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ public abstract class AbstractWorldMap {
     protected abstract Vector2d lowerLeft();
     protected abstract Vector2d upperRight();
     protected abstract IWorldMap returnThis();
-    final protected List<IMapElement> elements = new LinkedList<>();
+    final protected HashMap<Vector2d,IMapElement> elements = new HashMap<>();
 
     @Override
     public String toString() {
@@ -16,32 +17,21 @@ public abstract class AbstractWorldMap {
     }
 
     public boolean place(Animal animal) {
-        for (IMapElement e : elements) {
-            if(e.isAt(animal.getPosition())){
-                return false;
-            }
+        IMapElement e = elements.get(animal.getPosition());
+        if(e.isAt(animal.getPosition())){
+            return false;
         }
-        elements.add(animal);
+        elements.put(animal.getPosition(),animal);
         return true;
     }
     public boolean isOccupied(Vector2d position) {
-        for (IMapElement e : elements) {
-            if(e.isAt(position)){
-                return true;
-            }
-        }
-        return false;
+        return elements.get(position)!=null;
     }
     public Object objectAt(Vector2d position) {
-        for (IMapElement e : elements) {
-            if(position.equals(e.getPosition())){
-                return e;
-            }
-        }
-        return null;
+        return elements.get(position);
     }
 
-    public List<IMapElement> getElements() {
+    public HashMap<Vector2d,IMapElement> getElements() {
         return elements;
     }
 }

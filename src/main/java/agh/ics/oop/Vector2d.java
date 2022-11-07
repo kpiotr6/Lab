@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import java.lang.Math;
+import java.util.Objects;
 
 public class Vector2d {
     final int x;
@@ -64,5 +65,10 @@ public class Vector2d {
 
     Vector2d opposite() {
         return new Vector2d(-this.x, -this.y);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }
