@@ -11,6 +11,9 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
     }
     private boolean isGrass(Vector2d position){
         IMapElement e = elements.get(position);
+        if(e==null){
+            return false;
+        }
         if(e.isAt(position) && e instanceof Grass){
             return true;
         }
@@ -36,14 +39,13 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
     }
     @Override
     public boolean place(Animal animal) {
-        IMapElement element = null;
         IMapElement e = elements.get(animal.getPosition());
         if(e instanceof Animal ){
             return false;
         }
         elements.put(animal.getPosition(),animal);
         if(e instanceof Grass){
-            this.removeGrass(element);
+            this.removeGrass(e);
             this.stabilizeGrass();
         }
         return true;

@@ -4,12 +4,21 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class AbstractWorldMap {
+public abstract class AbstractWorldMap implements IPositionChangeObserver {
     protected abstract Vector2d lowerLeft();
     protected abstract Vector2d upperRight();
     protected abstract IWorldMap returnThis();
+
+
     final protected HashMap<Vector2d,IMapElement> elements = new HashMap<>();
 
+
+    @Override
+    public void positonChanged(Vector2d oldPosition, Vector2d newPosition) {
+        Animal animal = (Animal) elements.get(oldPosition);
+        elements.remove(oldPosition);
+        elements.put(newPosition,animal);
+    }
     @Override
     public String toString() {
         MapVisualizer mapVisualizer = new MapVisualizer(returnThis());
@@ -18,7 +27,7 @@ public abstract class AbstractWorldMap {
 
     public boolean place(Animal animal) {
         IMapElement e = elements.get(animal.getPosition());
-        if(e.isAt(animal.getPosition())){
+        if(e instanceof Animal){
             return false;
         }
         elements.put(animal.getPosition(),animal);
