@@ -25,10 +25,10 @@ public abstract class AbstractWorldMap implements IPositionChangeObserver {
         return mapVisualizer.draw(lowerLeft(),upperRight());
     }
 
-    public boolean place(Animal animal) {
+    public boolean place(Animal animal) throws IllegalArgumentException {
         IMapElement e = elements.get(animal.getPosition());
         if(e instanceof Animal){
-            return false;
+            throw new IllegalArgumentException("Wrong position: "+animal.getPosition());
         }
         elements.put(animal.getPosition(),animal);
         return true;

@@ -38,10 +38,10 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
 
     }
     @Override
-    public boolean place(Animal animal) {
+    public boolean place(Animal animal) throws IllegalArgumentException {
         IMapElement e = elements.get(animal.getPosition());
         if(e instanceof Animal ){
-            return false;
+            throw new IllegalArgumentException("Wrong position: "+animal.getPosition());
         }
         elements.put(animal.getPosition(),animal);
         if(e instanceof Grass){

@@ -8,6 +8,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GrassFieldTest {
     @Test
@@ -23,7 +24,10 @@ public class GrassFieldTest {
         IWorldMap map = new GrassField(10);
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(2,3) };
         assertTrue(map.place(new Animal(map,positions[0])));
-        assertFalse(map.place(new Animal(map,positions[0])));
+        assertThrows(IllegalArgumentException.class,()->{
+            map.place(new Animal(map,positions[0]));
+        });
+
         GrassField grassField = (GrassField)map;
         HashMap<Vector2d,IMapElement> elements = grassField.getElements();
         IMapElement k = null;

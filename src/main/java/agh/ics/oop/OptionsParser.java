@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class OptionsParser {
-    public static MoveDirection[] parse(String[] commands) {
+    public static MoveDirection[] parse(String[] commands) throws IllegalArgumentException {
         List<MoveDirection> directions = new LinkedList<>();
         for (String command : commands) {
             switch (command) {
@@ -13,6 +13,7 @@ public class OptionsParser {
                 case "b", "backward" -> directions.add(MoveDirection.BACKWARD);
                 case "l", "left" -> directions.add(MoveDirection.LEFT);
                 case "r", "right" -> directions.add(MoveDirection.RIGHT);
+                default -> throw new IllegalArgumentException(command+" is not legal move specification");
             }
         }
         MoveDirection[] moveArray = new MoveDirection[directions.size()];

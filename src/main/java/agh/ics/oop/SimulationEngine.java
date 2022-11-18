@@ -8,7 +8,7 @@ public class SimulationEngine implements IEngine{
     private IWorldMap map;
     private List<Animal> animals = new LinkedList<>();
 
-    public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions) {
+    public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions) throws IllegalArgumentException{
         this.moves = moves;
         this.map = map;
         for (Vector2d position:positions) {
