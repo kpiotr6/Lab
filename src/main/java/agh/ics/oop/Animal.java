@@ -1,10 +1,14 @@
 package agh.ics.oop;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Animal implements IMapElement {
     private MapDirection mapDirection = MapDirection.NORTH;
     private Vector2d position = new Vector2d(2,2);
     private IWorldMap map;
-    private IPositionChangeObserver observer;
+    private MapBoundary mapBoundary;
+    private List<IPositionChangeObserver> observers = new LinkedList<IPositionChangeObserver>() ;
     public Animal(IWorldMap map) {
         this.map = map;
     }
@@ -13,17 +17,26 @@ public class Animal implements IMapElement {
         this.position = initialPosition;
     }
     public Animal(){
-
     }
     public void addObserver(IPositionChangeObserver observer){
-        this.observer = observer;
+        this.observers.add(observer);
     }
-    public void removeObserver(){
-        this.observer = null;
+    public void removeObserver(IPositionChangeObserver observer){
+        this.observers.remove(observer);
+    }
+    public void addMapBoundary(MapBoundary mapBoundary){
+        this.mapBoundary = mapBoundary;
     }
     private void positionChanged(Vector2d oldPosition,Vector2d newPositon){
-        observer.positonChanged(oldPosition, newPositon);
+        for (IPositionChangeObserver observer: observers) {
+            observer.positonChanged(oldPosition, newPositon);
+        }
+        if(mapBoundary!=null){
+            mapBoundary.positonChanged(oldPosition, newPositon);
+        }
+
     }
+
     @Override
     public String toString() {
         return switch (mapDirection) {

@@ -5,6 +5,7 @@ import java.util.*;
 public class GrassField extends AbstractWorldMap implements IWorldMap{
     private HashSet<Vector2d> hashSet = new HashSet<>();
     private int grassNumber;
+    private MapBoundary mapBoundary = new MapBoundary();
     public GrassField(int grassNumber) {
         this.grassNumber = grassNumber;
         stabilizeGrass();
@@ -22,6 +23,7 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
     public void removeGrass(Object o){
         hashSet.remove(((Grass)o).getPosition());
         elements.remove(o);
+        mapBoundary.remove(((Grass)o).getPosition());
     }
     public void stabilizeGrass(){
         int x,y;
@@ -31,7 +33,8 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
             y = random.nextInt((int)Math.sqrt(grassNumber*10));
             Vector2d tmpVector =new Vector2d(x,y);
             if(hashSet.add(tmpVector)){
-                elements.put (tmpVector,new Grass(tmpVector));
+                elements.put(tmpVector,new Grass(tmpVector));
+                mapBoundary.add(tmpVector);
             }
         }
 
@@ -44,6 +47,8 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
             throw new IllegalArgumentException("Wrong position: "+animal.getPosition());
         }
         elements.put(animal.getPosition(),animal);
+        animal.addMapBoundary(mapBoundary);
+        mapBoundary.add(animal.getPosition());
         if(e instanceof Grass){
             this.removeGrass(e);
             this.stabilizeGrass();
@@ -57,18 +62,18 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
     }
 
     protected Vector2d lowerLeft(){
-        Vector2d lowerLeft = elements.keySet().iterator().next();
-        for (Vector2d e : elements.keySet()) {
-            lowerLeft = lowerLeft.lowerLeft(e);
-        }
-        return lowerLeft;
+//        Vector2d lowerLeft = elements.keySet().iterator().next();
+//        for (Vector2d e : elements.keySet()) {
+//            lowerLeft = lowerLeft.lowerLeft(e);
+//        }
+        return mapBoundary.lowerLeft();
     }
     protected Vector2d upperRight(){
-        Vector2d upperRight = elements.keySet().iterator().next();
-        for (Vector2d e : elements.keySet()) {
-            upperRight = upperRight.upperRight(e);
-        }
-        return upperRight;
+//        Vector2d upperRight = elements.keySet().iterator().next();
+//        for (Vector2d e : elements.keySet()) {
+//            upperRight = upperRight.upperRight(e);
+//        }
+        return mapBoundary.upperRight();
     }
     @Override
     protected IWorldMap returnThis() {

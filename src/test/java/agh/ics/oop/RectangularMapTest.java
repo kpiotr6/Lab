@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RectangularMapTest {
     @Test
@@ -23,7 +21,9 @@ public class RectangularMapTest {
         IWorldMap map = new RectangularMap(30,40);
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(2,3) };
         assertTrue(map.place(new Animal(map,positions[0])));
-        assertFalse(map.place(new Animal(map,positions[0])));
+        assertThrows(IllegalArgumentException.class,()->{
+            map.place(new Animal(map,positions[0]));
+        });
         RectangularMap rectangularMap = (RectangularMap)map;
         HashMap<Vector2d,IMapElement> elements = rectangularMap.getElements();
         IMapElement k = null;
