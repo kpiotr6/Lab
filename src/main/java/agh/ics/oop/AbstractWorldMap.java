@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.GuiElementBox;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -21,8 +22,6 @@ public abstract class AbstractWorldMap implements IPositionChangeObserver {
     final protected HashMap<Vector2d,IMapElement> elements = new HashMap<>();
 
     public void parseToGrid(GridPane gridPane){
-        int xNumber = upperRight().x - lowerLeft().x;
-        int yNumber = upperRight().y - lowerLeft().y;
         for(int i= lowerLeft().x;i < upperRight().x+1;i++){
             for(int j = lowerLeft().y;j <  upperRight().y+1;j++){
                 Object value = objectAt(new Vector2d(i,j));

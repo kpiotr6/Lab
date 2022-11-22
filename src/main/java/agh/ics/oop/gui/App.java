@@ -2,6 +2,7 @@ package agh.ics.oop.gui;
 
 import agh.ics.oop.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -19,9 +20,7 @@ public class App extends Application {
         map = new GrassField(10);
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(2,8) };
         IEngine engine = new SimulationEngine(directions, map, positions);
-//        System.out.println(map);
         engine.run();
-//        System.out.println(map);
     }
 
     @Override
@@ -33,6 +32,5 @@ public class App extends Application {
         gridPane.setGridLinesVisible(true);
         primaryStage.show();
         primaryStage.setScene(scene);
-
     }
 }
