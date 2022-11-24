@@ -7,30 +7,58 @@ import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.LinkedList;
 
 public class App extends Application {
 
-    IWorldMap map;
-
-
+    private IWorldMap map;
+    private GridPane gridPane = new GridPane();
+    private MoveDirection[] directions;
+    private Thread thread;
+    private Scene scene;
+    private SimulationEngine engine;
     @Override
     public void init() throws Exception {
-        MoveDirection[] directions = OptionsParser.parse(getParameters().getRaw().toArray(new String[0]));
+        directions = OptionsParser.parse(getParameters().getRaw().toArray(new String[0]));
         map = new GrassField(10);
+        ((AbstractWorldMap)map).setGridPane(gridPane);
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(2,8) };
-        IEngine engine = new SimulationEngine(directions, map, positions);
-        engine.run();
+        engine = new SimulationEngine(directions, map, positions);
+        thread = new Thread(engine);
+
+//        engine.run();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        GridPane gridPane = new GridPane();
-        ((AbstractWorldMap)map).parseToGrid(gridPane);
-        Scene scene = new Scene(gridPane);
-        primaryStage.setResizable(false);
-        gridPane.setGridLinesVisible(true);
-        primaryStage.show();
-        primaryStage.setScene(scene);
+        try{
+            primaryStage.show();
+
+            primaryStage.setHeight(500);
+            primaryStage.setWidth(500);
+
+            scene = new Scene(gridPane);
+            gridPane.add(new VBox(new Label("KRAA"),new Label("AARK")),0,0);
+            primaryStage.setScene(scene);
+//        gridPane.add(new Label("lool"),1,0);
+//        gridPane.add(new Label("lool"),2,0);
+//            ((AbstractWorldMap)map).run();
+//            engine.run();
+//            thread.start();
+//            Thread.sleep(5000);
+//        thread.interrupt();
+//            Thread.sleep(1000);
+//            ((AbstractWorldMap)map).run();
+            engine.run();
+            ((AbstractWorldMap)map).run();
+            Thread.sleep(10000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
     }
 }

@@ -13,6 +13,7 @@ public class World {
         }
         catch (IllegalArgumentException e){
             System.out.println(e);
+            e.printStackTrace();
         }
         finally{
             System.exit(0);
