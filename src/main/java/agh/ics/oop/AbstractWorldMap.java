@@ -2,6 +2,7 @@ package agh.ics.oop;
 
 import agh.ics.oop.gui.GuiElementBox;
 import com.sun.jdi.Value;
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -21,16 +22,18 @@ public abstract class AbstractWorldMap implements IPositionChangeObserver,Runnab
     protected abstract Vector2d upperRight();
     protected abstract IWorldMap returnThis();
     final protected HashMap<Vector2d,IMapElement> elements = new HashMap<>();
-    protected HashMap<Vector2d,GuiElementBox> boxesMap = new HashMap<>();
     protected GridPane gridPane;
-    protected GuiElementBox toModificate;
-    protected Vector2d modificatePosition;
     public void setGridPane(GridPane grid){
         this.gridPane = grid;
     }
     public void run(){
-        parseToGrid();
+        for (IMapElement e: elements.values()) {
+            if (e.getRepresentation()!=null){
+                e.getRepresentation().update();
+            }
 
+        }
+        parseToGrid();
         gridPane.setGridLinesVisible(true);
     }
 
@@ -43,12 +46,14 @@ public abstract class AbstractWorldMap implements IPositionChangeObserver,Runnab
             for(int j = lowerLeft().y;j <  upperRight().y+1;j++){
                 Object value = objectAt(new Vector2d(i,j));
                 if(value != null){
-                    Vector2d e = ((IMapElement)value).getPosition();
-                    boxesMap.put(e, new GuiElementBox((IMapElement) value));
-                    GuiElementBox b = boxesMap.get(e);
-                    gridPane.add(b.getVBox(),i-lowerLeft().x+1,upperRight().y+1-j,1,1);
+                    IMapElement e = (IMapElement)value;
+                    GuiElementBox representation = e.getRepresentation();
+                    if(representation ==null){
+                        e.setRepresentation(new GuiElementBox(e));
+                        representation = e.getRepresentation();
+                    }
+                    gridPane.add(representation.getVBox(),i-lowerLeft().x+1,upperRight().y+1-j,1,1);
                 }
-
             }
         }
         for(int j = lowerLeft().y;j <  upperRight().y+1;j++){
@@ -78,12 +83,16 @@ public abstract class AbstractWorldMap implements IPositionChangeObserver,Runnab
     @Override
     public void positonChanged(Vector2d oldPosition, Vector2d newPosition) {
         Animal animal = (Animal) elements.get(oldPosition);
-        GuiElementBox box = boxesMap.get(oldPosition);
-        if(box != null){
-            toModificate = box;
-            modificatePosition = newPosition;
-            boxesMap.remove(oldPosition);
-        }
+//        Platform.runLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                if(animal.getRepresentation()!=null){
+//                    animal.getRepresentation().update();
+//                }
+//            }
+//        });
+
+
         elements.remove(oldPosition);
         elements.put(newPosition,animal);
     }

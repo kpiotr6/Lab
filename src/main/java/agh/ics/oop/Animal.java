@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.GuiElementBox;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class Animal implements IMapElement {
     private IWorldMap map;
     private MapBoundary mapBoundary;
     private List<IPositionChangeObserver> observers = new LinkedList<IPositionChangeObserver>() ;
+    private GuiElementBox representation;
     public Animal(IWorldMap map) {
         this.map = map;
     }
@@ -89,5 +92,13 @@ public class Animal implements IMapElement {
 
     public MapDirection getMapDirection() {
         return mapDirection;
+    }
+
+    public GuiElementBox getRepresentation() {
+        return representation;
+    }
+
+    public void setRepresentation(GuiElementBox representation) {
+        this.representation = representation;
     }
 }

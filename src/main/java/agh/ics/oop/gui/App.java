@@ -29,11 +29,17 @@ public class App extends Application {
     private ThreadedSimulationEngine engine;
     @Override
     public void init() throws Exception {
-        map = new GrassField(10);
-        ((AbstractWorldMap)map).setGridPane(gridPane);
-        Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(2, 8)};
-        engine = new ThreadedSimulationEngine(map, positions);
-        ((AbstractWorldMap)map).run();
+        try{
+            map = new GrassField(10);
+            ((AbstractWorldMap)map).setGridPane(gridPane);
+            Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(2, 8)};
+            engine = new ThreadedSimulationEngine(map, positions);
+            ((AbstractWorldMap)map).run();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override

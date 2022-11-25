@@ -41,6 +41,8 @@ public class GuiElementBox {
         if (element instanceof Animal) {
             this.label.setText("Z " + element.getPosition().toString());
             setRepresentation();
+            this.vBox = new VBox(this.current, this.label);
+            this.vBox.setAlignment(Pos.CENTER);
         }
     }
     private void setRepresentation(){
