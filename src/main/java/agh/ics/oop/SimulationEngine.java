@@ -6,10 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class SimulationEngine implements IEngine,Runnable{
-    private MoveDirection[] moves;
-    private IWorldMap map;
-    private List<Animal> animals = new LinkedList<>();
-
+    protected MoveDirection[] moves;
+    protected IWorldMap map;
+    protected List<Animal> animals = new LinkedList<>();
+    protected final static int moveDelay = 300;
     public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions) throws IllegalArgumentException{
         this.moves = moves;
         this.map = map;
@@ -22,6 +22,10 @@ public class SimulationEngine implements IEngine,Runnable{
 
     }
 
+    public SimulationEngine() {
+
+    }
+
     public List<Animal> getAnimals() {
         return animals;
     }
@@ -31,22 +35,15 @@ public class SimulationEngine implements IEngine,Runnable{
         int animalNumber = 0;
         int maxAnimal = animals.size();
         for(MoveDirection move:moves){
-
             try{
-//                Thread.sleep(1000);
+                Thread.sleep(moveDelay);
             }catch (Exception e){
                 System.out.println("Przerwano symulację");
             }
-            System.out.println("run1");
             animals.get(animalNumber%maxAnimal).move(move);
             animalNumber++;
-//            Platform.runLater((AbstractWorldMap)map);
-//            try{
-//                Thread.sleep(1);
-//            }catch (Exception e){
-//                System.out.println("Przerwano symulację");
-//            }
-            System.out.println("run2");
+
+            Platform.runLater((AbstractWorldMap)map);
 
         }
 
